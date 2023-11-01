@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+    myapp:
+        image: 'bitnami/symfony:6.3'
+        ports:
+            - '${SYMFONY_APP_PORT-8000}:8000'
+        volumes:
+            - '.:/app'
+        environment:
+            SYMFONY_DATABASE_HOST: '${SYMFONY_DATABASE_HOST}'
+            SYMFONY_DATABASE_PORT_NUMBER: 3306
+            SYMFONY_DATABASE_USER: '${SYMFONY_DATABASE_USER}'
+            SYMFONY_DATABASE_PASSWORD: '${SYMFONY_DATABASE_PASSWORD}'
+            SYMFONY_DATABASE_NAME: '${SYMFONY_DATABASE_NAME}'
+            SYMFONY_PROJECT_SKELETON: 'symfony/skeleton'
+        depends_on:
+            - mariadb
+    mariadb:
+        #BEFORE_START: sudo chown -R 1001:1001 docker/database-volume/
+        #BEFORE_START: sudo chmod 777 -R docker/database-volume/
+        image: 'bitnami/mariadb:10.11'
+        environment:
+            ALLOW_EMPTY_PASSWORD: 'yes'
+            MARIADB_USER: '${SYMFONY_DATABASE_USER}'
+            MARIADB_PASSWORD: '${SYMFONY_DATABASE_PASSWORD}'
+            MARIADB_DATABASE: '${SYMFONY_DATABASE_NAME}'
+        ports:
+            - '${SYMFONY_DATABASE_PORT:-3306}:3306'
+        volumes:
+#            - ./docker/database-volume:/bitnami/mariadb
+            - mariadb_data:/bitnami/mariadb
+volumes:
+    mariadb_data:
+        driver: local
