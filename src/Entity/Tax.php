@@ -20,6 +20,9 @@ class Tax
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2)]
     private ?string $rate = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $taxFormat = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +48,18 @@ class Tax
     public function setRate(string $rate): static
     {
         $this->rate = $rate;
+
+        return $this;
+    }
+
+    public function getTaxFormat(): ?string
+    {
+        return $this->taxFormat;
+    }
+
+    public function setTaxFormat(?string $taxFormat): static
+    {
+        $this->taxFormat = $taxFormat;
 
         return $this;
     }

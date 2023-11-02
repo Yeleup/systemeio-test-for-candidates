@@ -14,21 +14,25 @@ class TaxFixtures extends Fixture
     {
         $tax = new Tax();
         $tax->setCountryCode('DE');
+        $tax->setTaxFormat('DEXXXXXXXXX');
         $tax->setRate(19);
         $manager->persist($tax);
 
         $tax = new Tax();
         $tax->setCountryCode('IT');
+        $tax->setTaxFormat('ITXXXXXXXXXXX');
         $tax->setRate(22);
         $manager->persist($tax);
 
         $tax = new Tax();
         $tax->setCountryCode('FR');
+        $tax->setTaxFormat('FRYYXXXXXXXXX');
         $tax->setRate(20);
         $manager->persist($tax);
 
         $tax = new Tax();
         $tax->setCountryCode('GR');
+        $tax->setTaxFormat('GRXXXXXXXXX');
         $tax->setRate(24);
         $manager->persist($tax);
 
