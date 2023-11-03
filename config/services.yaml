@@ -22,3 +22,24 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    _instanceof:
+        App\PaymentProcessor\PaymentProcessorInterface:
+            tags: [ 'app.payment_processor' ]
+
+    # Адаптер PaypalPaymentProcessor
+    Systemeio\TestForCandidates\PaymentProcessor\PaypalPaymentProcessor:
+
+    App\PaymentProcessor\PaypalPaymentProcessorAdapter:
+        arguments:
+            $paymentProcessor: '@Systemeio\TestForCandidates\PaymentProcessor\PaypalPaymentProcessor'
+
+    # Адаптер StripePaymentProcessor
+    Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor:
+
+    App\PaymentProcessor\StripePaymentProcessorAdapter:
+        arguments:
+            $paymentProcessor: '@Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor'
+
+    App\Service\PaymentService:
+        arguments: [ !tagged_iterator 'app.payment_processor' ]

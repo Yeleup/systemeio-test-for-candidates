@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Dto\CalculatePriceQueryDto;
-use App\Repository\CouponRepository;
-use App\Repository\ProductRepository;
-use App\Repository\TaxRepository;
+use App\Dto\PurchaseQueryDto;
 use App\Service\CalculatePriceService;
+use App\Service\PaymentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -18,5 +17,15 @@ class PurchaseController extends AbstractController
     public function calculatePrice(#[MapRequestPayload] CalculatePriceQueryDto $calculatePriceQueryDto, CalculatePriceService $calculatePriceService,): JsonResponse
     {
         return $this->json($calculatePriceService->calculateFinalPrice($calculatePriceQueryDto));
+    }
+
+    #[Route('/purchase', name: 'purchase', methods: ['POST'])]
+    public function purchase(#[MapRequestPayload] PurchaseQueryDto $purchaseQueryDto, PaymentService $paymentService): JsonResponse
+    {
+        if ($paymentService->process(100000, $purchaseQueryDto->paymentProcessor)) {
+            return $this->json(['status' => true]);
+        } else {
+            return $this->json(['status' => false]);
+        }
     }
 }
