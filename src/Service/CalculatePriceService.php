@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Dto\CalculatePriceQueryDto;
 use App\Entity\Coupon;
 use App\Repository\ProductRepository;
 use App\Repository\TaxRepository;
@@ -24,10 +23,10 @@ class CalculatePriceService
         $this->couponRepository = $couponRepository;
     }
 
-    public function calculateFinalPrice(CalculatePriceQueryDto $calculatePriceQueryDto): array
+    public function calculateCart($productId, $couponCode, $taxNumber): array
     {
-        $product = $this->productRepository->find($calculatePriceQueryDto->product);
-        $coupon = $this->couponRepository->findOneBy(['code' => $calculatePriceQueryDto->couponCode]);
+        $product = $this->productRepository->find($productId);
+        $coupon = $this->couponRepository->findOneBy(['code' => $couponCode]);
 
         $price = $product->getPrice();
 
@@ -42,7 +41,7 @@ class CalculatePriceService
             $price -= $couponPrice;
         }
 
-        $countryCode = substr($calculatePriceQueryDto->taxNumber, 0, 2);
+        $countryCode = substr($taxNumber, 0, 2);
         $tax = $this->taxRepository->findOneBy(['countryCode' => $countryCode]);
         $taxPrice = $price * ($tax->getRate() / 100);
 

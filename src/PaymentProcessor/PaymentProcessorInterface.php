@@ -2,5 +2,5 @@
 namespace App\PaymentProcessor;
 
 interface PaymentProcessorInterface {
-    public function processPayment($amount);
+    public function processPayment($amount): bool;
 }

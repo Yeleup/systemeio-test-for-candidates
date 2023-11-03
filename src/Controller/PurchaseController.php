@@ -13,16 +13,22 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PurchaseController extends AbstractController
 {
-    #[Route('/calculate-price', name: 'calculate_price', methods: ['POST'])]
-    public function calculatePrice(#[MapRequestPayload] CalculatePriceQueryDto $calculatePriceQueryDto, CalculatePriceService $calculatePriceService,): JsonResponse
+    public function __construct(protected CalculatePriceService $calculatePriceService)
     {
-        return $this->json($calculatePriceService->calculateFinalPrice($calculatePriceQueryDto));
+    }
+
+    #[Route('/calculate-price', name: 'calculate_price', methods: ['POST'])]
+    public function calculatePrice(#[MapRequestPayload] CalculatePriceQueryDto $dto): JsonResponse
+    {
+        return $this->json($this->calculatePriceService->calculateCart($dto->product, $dto->couponCode, $dto->taxNumber));
     }
 
     #[Route('/purchase', name: 'purchase', methods: ['POST'])]
-    public function purchase(#[MapRequestPayload] PurchaseQueryDto $purchaseQueryDto, PaymentService $paymentService): JsonResponse
+    public function purchase(#[MapRequestPayload] PurchaseQueryDto $dto, PaymentService $paymentService): JsonResponse
     {
-        if ($paymentService->process(100000, $purchaseQueryDto->paymentProcessor)) {
+        $result = $this->calculatePriceService->calculateCart($dto->product, $dto->couponCode, $dto->taxNumber);
+
+        if ($paymentService->process($result['total'], $dto->paymentProcessor)) {
             return $this->json(['status' => true]);
         } else {
             return $this->json(['status' => false]);

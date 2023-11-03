@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Enum\PaymentProcessorEnum;
 use App\PaymentProcessor\PaymentProcessorInterface;
 use App\PaymentProcessor\PaypalPaymentProcessorAdapter;
 use App\PaymentProcessor\StripePaymentProcessorAdapter;
@@ -15,9 +16,9 @@ class PaymentService {
             }
 
             if ($processor instanceof PaypalPaymentProcessorAdapter) {
-                $this->paymentProcessors['paypal'] = $processor;
+                $this->paymentProcessors[PaymentProcessorEnum::PAYPAL->value] = $processor;
             } elseif ($processor instanceof StripePaymentProcessorAdapter) {
-                $this->paymentProcessors['stripe'] = $processor;
+                $this->paymentProcessors[PaymentProcessorEnum::STRIPE->value] = $processor;
             }
         }
     }

@@ -9,7 +9,8 @@ class StripePaymentProcessorAdapter implements PaymentProcessorInterface
     {
     }
 
-    public function processPayment($amount) {
+    public function processPayment($amount): bool
+    {
         return $this->paymentProcessor->processPayment($amount);
     }
 }

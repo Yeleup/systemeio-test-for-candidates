@@ -9,8 +9,13 @@ class PaypalPaymentProcessorAdapter implements PaymentProcessorInterface
     {
     }
 
-    public function processPayment($amount) {
-        $this->paymentProcessor->pay($amount);
+    public function processPayment($amount): bool
+    {
+        try {
+            $this->paymentProcessor->pay($amount);
+        } catch (\Exception $exception) {
+            return false;
+        }
         return true;
     }
 }
