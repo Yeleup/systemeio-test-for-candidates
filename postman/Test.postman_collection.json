@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "ca9a4810-f7e9-44a4-9e96-d4636acd34b0",
+		"name": "Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1369488"
+	},
+	"item": [
+		{
+			"name": "Calculate Price",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product\": 1,\r\n    \"taxNumber\": \"GR123456789\",\r\n    \"couponCode\": \"D15\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8200/calculate-price",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"calculate-price"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product\": 4,\r\n    \"taxNumber\": \"IT12345678900\",\r\n    \"couponCode\": \"D15\",\r\n    \"paymentProcessor\": \"paypal\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8200/purchase",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

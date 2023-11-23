@@ -100,6 +100,7 @@ CRUD для сущностей писать не нужно.
 
 1. Вам необходимо запустить контейнеры Docker. Для этого используйте следующую команду: **docker compose up -d**
 2. После запуска контейнеров выполните миграции базы данных командой: **docker exec -it test-for-candidate-myapp-1 php bin/console do:mi:mi**
+3. Надо запустить фикстуры **docker exec -it test-for-candidate-myapp-1 php bin/console do:fi:lo**
 
 ## Отправка HTTP-запросов
 Для работы с сервисом доступны следующие HTTP-эндпоинты:
